@@ -1,0 +1,12 @@
+<style>
+     @font-face {
+            font-family: iransans;
+            src: url('/font//IRANSansXFaNum-Medium.woff');
+        }
+        *{
+            font-family: iransans;
+        }
+</style>
+
+<%- include('./includes/admin-orders-table') %>
+<input type="hidden" name="_csrf" value="<%= csrfToken %>">

@@ -1,0 +1,21 @@
+<h1>
+    توجه داشته باش که برای سفارش سریع مبلغ 6900 تومان به مبلغ سفارش تان افزوده خواهد شد
+</h1>
+
+<h1>
+    <%= total_price%> تومان
+</h1>
+
+<button type="button">
+    پرداخت
+</button>
+<input type="hidden" name="_csrf" value="<%= csrfToken %>">
+<style>
+     @font-face {
+            font-family: iransans;
+            src: url('/font//IRANSansXFaNum-Medium.woff');
+        }
+        *{
+            font-family: iransans;
+        }
+</style>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه اصلی</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: iransans;
+            src: url(/font/IRANSansXFaNum-Medium.woff);
+        }
+
+        body {
+            background-color: #EDA96C;
+            color: rgba(44, 75, 44, 1);
+
+            font-family: iransans;
+        }
+
+        .navbar {
+            background-color: #EDA96C;
+            padding: 1rem;
+            position: relative;
+        }
+
+        .navbar-brand,
+        .nav-link,
+        .profile-icon {
+            color: #FFFFFF;
+        }
+
+        .nav-item {
+            white-space: nowrap;
+        }
+
+        .logo {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+
+        }
+
+        .menu-header {
+            text-align: center;
+            font-weight: bold;
+            font-size: 24px;
+            color: #000;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 320px) {
+            .logo {
+                width: 70px;
+                height: 70px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .navbar-collapse {
+                text-align: right;
+            }
+        }
+
+        .bread-row {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            border-color: cornsilk !important;
+            border-width: 5px !important;
+            border: double;
+        }
+
+        .bread-card {
+            display: flex;
+            align-items: center;
+            border-width: 5px !important;
+            color: black;
+            border-color: cornsilk;
+            padding: 20px;
+            border-radius: 8px;
+            border: cornsilk !important;
+
+        }
+
+        .bread-image {
+            max-width: 200px;
+            border-radius: 50%;
+        }
+
+        .btn-custom {
+            background-color: rgba(44, 75, 44, 1);
+            color: #FFFFFF;
+            border: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-custom:hover {
+            background-color: rgba(44, 75, 44, 1);
+            color: #FFFFFF;
+            transform: translateY(-3px);
+        }
+
+
+        .bread-row {
+            max-width: 250px;
+            margin: 10px auto;
+            padding: 15px;
+            border: double 5px cornsilk;
+            border-radius: 8px;
+            background-color: cornsilk;
+            text-align: center;
+        }
+
+        .bread-card {
+            padding: 10px;
+            color: black;
+        }
+
+        input[placeholder] {
+            opacity: 0.5;
+        }
+
+
+        .quantity-adjuster {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .btn-adjust {
+            background-color: rgba(44, 75, 44, 1);
+            color: #FFFFFF;
+            border: none;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .btn-adjust:hover {
+            transform: scale(1.1);
+        }
+
+        
+    </style>
+</head>
+
+<body dir="rtl">
+
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+                ☰
+            </button>
+            <div class="collapse navbar-collapse col-4" id="navbarMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a href="/cart" class="nav-link">سبد خرید</a></li>
+                    <li class="nav-item"><a href="/user-orders" class="nav-link">مشاهده سفارشات</a></li>
+                    <li class="nav-item"><a href="/cancel-orders" class="nav-link">لغو سفارش</a></li>
+                    <li class="nav-item"><a href="/comment" class="nav-link">ارسال نظر</a></li>
+                </ul>
+            </div>
+
+            <div class="logo-container col-4 d-flex justify-content-center">
+                <img src="/img/logo.jpg" alt="logo" class="logo">
+            </div>
+            <!-- <div class="col-4 d-flex justify-content-center">
+                <a href="/user">
+                    <img src="/img/user.png" alt="user" class="profile-icon">
+                </a>
+
+            </div> -->
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <% if(errorMessage){%>
+
+            <div class="alert alert-success mt-4">
+                <%= errorMessage %>
+            </div>
+            <%}%>
+
+                <!-- Loop through each bread group and display them in separate boxes in the same row -->
+                <% const breadsGroupedByName={}; %>
+                    <% breads.forEach(bread=> { %>
+                        <% if (!breadsGroupedByName[bread.bread_name]) { breadsGroupedByName[bread.bread_name]=[]; } %>
+                            <% breadsGroupedByName[bread.bread_name].push(bread); %>
+                                <% }) %>
+
+                                    <div class="row">
+                                        <% Object.keys(breadsGroupedByName).forEach((breadName, index)=> { %>
+                                            <div class="col-md-4 bread-row d-flex justify-content-center"
+                                                style="background-color: cornsilk!important;">
+                                                <div class="bread-card">
+                                                    <div>
+                                                        <h5 class="text-center">
+                                                            <%= breadName %>
+                                                        </h5>
+                                                        <form action="/main" method="post">
+                                                            <div class="mb-3">
+                                                                <label for="type-<%= index %>">انتخاب نوع:</label>
+                                                                <select id="type-<%= index %>" name="bread_id_type"
+                                                                    class="form-select"
+                                                                    onchange="updatePriceAndId(<%= index %>)">
+                                                                    <% breadsGroupedByName[breadName].forEach(bread=> {
+                                                                        %>
+                                                                        <option
+                                                                            value="<%= bread.bread_id %>-<%= bread.type %>"
+                                                                            data-price="<%= bread.price %>">
+                                                                            <%= bread.type %>
+                                                                        </option>
+                                                                        <% }) %>
+                                                                </select>
+                                                            </div>
+
+                                                            <p>قیمت: <span id="price-display-<%= index %>">
+                                                                    <%= breadsGroupedByName[breadName][0].price %>
+                                                                </span> تومان</p>
+
+                                                            <!-- Hidden fields to store price and CSRF token -->
+                                                            <input type="hidden" name="price"
+                                                                id="price-input-<%= index %>"
+                                                                value="<%= breadsGroupedByName[breadName][0].price %>">
+                                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                            <!-- Quantity Adjuster -->
+                                                            <div class="quantity-adjuster">
+                                                                <button type="button" class="btn-adjust"
+                                                                    onclick="adjustQuantity(<%= index %>, -1)">-</button>
+                                                                <input type="text" id="number-<%= index %>"
+                                                                    name="number" class="form-control text-center"
+                                                                    style="width: 60px;" value="1" readonly required>
+                                                                <button type="button" class="btn-adjust"
+                                                                    onclick="adjustQuantity(<%= index %>, 1)">+</button>
+                                                            </div>
+
+                                                            <button type="submit" class="btn btn-custom">افزودن به سبد
+                                                                خرید</button>
+                                                        </form>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <% }) %>
+                                    </div>
+    </div>
+
+   <!-- <%- include('./includes/footer.ejs') %> -->
+
+    <script>
+        function updatePriceAndId(index) {
+            const selectBox = document.getElementById('type-' + index);
+            const selectedOption = selectBox.options[selectBox.selectedIndex];
+            const price = selectedOption.getAttribute('data-price');
+            document.getElementById('price-display-' + index).textContent = price;
+            document.getElementById('price-input-' + index).value = price;
+        }
+        function updatePriceAndId(index) {
+            const selectBox = document.getElementById('type-' + index);
+            const selectedOption = selectBox.options[selectBox.selectedIndex];
+            const price = selectedOption.getAttribute('data-price');
+            document.getElementById('price-display-' + index).textContent = price;
+        }
+
+        function adjustQuantity(index, change) {
+            const input = document.getElementById('number-' + index);
+            let quantity = parseInt(input.value, 10) || 1;
+            quantity = Math.max(1, quantity + change);
+            input.value = quantity;
+        }
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سفارش خوابگاه <%= dormitory_name %>
+    </title>
+    <style>
+        @font-face {
+            font-family: iransans;
+            src: url('/font/IRANSansXFaNum-Medium.woff');
+        }
+
+        * {
+            font-family: iransans;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #489D99;
+            color: #FFFFFF;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0px !important;
+            flex-direction: column;
+        }
+
+        .top-buttons {
+            width: 100%;
+            display: flex;
+            justify-content: space-evenly;
+            margin-bottom: 20px;
+        }
+
+        .out-of-box-buttons {
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .dormitory-forms {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .dormitory-forms form {
+            flex: 1;
+            min-width: 180px;
+            max-width: 250px;
+            margin: 10px;
+        }
+
+        .dormitory-forms button {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 1rem;
+            text-align: center;
+            background-color: #489D99;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .dormitory-forms button:hover {
+            background-color: #3B7D7A;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            max-width: 100%;
+            width: 100%;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        h1 {
+            color: #489D99;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            color: #489D99;
+            word-wrap: break-word;
+            text-align: center;
+        }
+
+        th {
+            background-color: #489D99;
+            color: #FFFFFF;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            background-color: #489D99;
+            color: #FFFFFF;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button a {
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+        button:hover {
+            background-color: #3B7D7A;
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th,
+            td {
+                padding: 8px;
+                text-wrap: nowrap;
+            }
+
+            button {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            table {
+                font-size: 0.8rem;
+            }
+
+            th,
+            td {
+                padding: 6px;
+            }
+
+            button {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+ <!-- Summary Table -->
+ 
+ <table dir="rtl">
+     <thead>
+         <tr>
+             <th>تاریخ</th>
+             <th>نام نان</th>
+             <th>نوع</th>
+             <th>تعداد کل</th>
+             <th>مبلغ کل</th>
+         </tr>
+     </thead>
+     <tbody>
+         <% orderSummary.forEach(summary => { %>
+             <tr>
+                 <td><%= summary.date %></td>
+                 <td><%= summary.bread_name %></td>
+                 <td><%= summary.type %></td>
+                 <td><%= summary.total_quantity %></td>
+                 <td><%= summary.total_price %></td>
+             </tr>
+         <% }); %>
+     </tbody>
+ </table>
+
+        <form action="/delivered-order" method="post" style="text-align: left;">
+            <button type="submit">تحویل داده شد</button>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <table dir="rtl">
+                <thead>
+                    <tr>
+                        <th>نام کاربری</th>
+                        <th>نام</th>
+                        <th>نان</th>
+                        <th>نوع نان</th>
+                        <th>تعداد</th>
+                        <th>تاریخ</th>
+                        <th>ساعت</th>
+                        <th>مبلغ کل</th>
+                        <th>خوابگاه</th>
+                        <th>نوع تحویل</th>
+                        <th>تحویل</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% orders.forEach(item=> { %>
+                        <tr>
+                            <td>
+                                <%= item.user_id %>
+                            </td>
+                            <td>
+                                <%= item.name %>
+                            </td>
+                            <td>
+                                <%= item.bread_name %>
+                            </td>
+                            <td>
+                                <%= item.type %>
+                            </td>
+                            <td>
+                                <%= item.number %>
+                            </td>
+                            <td>
+                                <%= item.date %>
+                            </td>
+                            <td>
+                                <%= item.time %>
+                            </td>
+                            <td>
+                                <%= item.total_price %>
+                            </td>
+                            <td>
+                                <%= item.dormitory_name %>
+                            </td>
+                            <td>
+                                <%= item.order_type %>
+                            </td>
+                            
+                            <td>
+                                <input type="checkbox" name="order_ids[]" value="<%= item.order_id %>">
+
+                            </td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+        </form>
+
+        
+    </div>
+    <button type="button" onclick="window.location.href=`/admin-main`">صفحه اصلی</button>
+
+    <button type="button" onclick="window.location.href=`/orders`">صفحه سفارشات</button>
+</body>
+
+</html>
